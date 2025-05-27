@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>3D Scatter Plot with Three.js</title>
+  <title>3D Scatter Plot (with ES Modules)</title>
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
   </style>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<script type="module">
+  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+  import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
-<script>
   // Scene setup
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -22,12 +22,12 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
 
   // Generate random data points
   const numPoints = 500;
   for (let i = 0; i < numPoints; i++) {
-    const x = THREE.MathUtils.randFloatSpread(100); // -50 to +50
+    const x = THREE.MathUtils.randFloatSpread(100);
     const y = THREE.MathUtils.randFloatSpread(100);
     const z = THREE.MathUtils.randFloatSpread(100);
 
@@ -42,7 +42,7 @@
   const axesHelper = new THREE.AxesHelper(60);
   scene.add(axesHelper);
 
-  // Animate
+  // Animation loop
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
@@ -50,7 +50,7 @@
   }
   animate();
 
-  // Resize Handling
+  // Responsive canvas
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
